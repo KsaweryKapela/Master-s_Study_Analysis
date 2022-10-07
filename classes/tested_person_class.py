@@ -36,7 +36,7 @@ class TestedPerson:
             return True
 
     def return_church_status(self):
-        if self.data['Wiara'] == 'Tak, ale nie praktykującą':
+        if self.data['Wiara'] in ['Tak, ale nie praktykującą', 'Nie']:
             return False
         else:
             return True

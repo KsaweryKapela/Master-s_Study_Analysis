@@ -1,7 +1,4 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.stats import pearsonr
+from scipy.stats import pearsonr, shapiro
 
 
 class StatisticalAnalysis:
@@ -22,5 +19,17 @@ class StatisticalAnalysis:
     def r_pearson(self, column_string_1, column_string_2):
         column_1 = self.column(column_string_1)
         column_2 = self.column(column_string_2)
-        result = pearsonr(column_1, column_2)
+        result = pearsonr(column_1, column_2, alternative='greater')
         print(result)
+
+    def shapiro_wilk(self, column_string):
+        column = self.column(column_string)
+        result = shapiro(column)
+        print(result)
+        return result
+
+    def is_normal(self, column_string):
+        if self.shapiro_wilk(column_string)[0] > 0.05:
+            return True
+        else:
+            return False

@@ -1,18 +1,10 @@
+import collections
+
+import numpy as np
 from matplotlib import pyplot as plt
 
 from classes.statistical_analysis_class import StatisticalAnalysis
-
-
-def generate_index_dict(column):
-    column_dict = {}
-
-    for item in column:
-        if item in column_dict:
-            column_dict[item] += 1
-        else:
-            column_dict[item] = 1
-
-    return column_dict
+from functions.functions_ import generate_index_dict
 
 
 class Visualizing_Results(StatisticalAnalysis):
@@ -34,5 +26,51 @@ class Visualizing_Results(StatisticalAnalysis):
 
         plt.xlabel("Values")
         plt.ylabel("People")
+
+        plt.show()
+
+    def sex_double_graph_bar(self, column_string):
+        male_data, female_data = self.split_column_into_sexes(column_string)
+
+        male_dict = generate_index_dict(male_data)
+
+        female_dict = generate_index_dict(female_data)
+
+        x = np.arange(1, 11)
+
+        for number in x:
+            if number not in male_dict.keys():
+                male_dict[number] = 0
+            if number not in female_dict.keys():
+                female_dict[number] = 0
+
+        ordered_male_dict = collections.OrderedDict(sorted(male_dict.items()))
+        ordered_female_dict = collections.OrderedDict(sorted(female_dict.items()))
+
+        female_values = list(ordered_female_dict.values())
+        male_values = list(ordered_male_dict.values())
+
+        labels = np.arange(1, 11)
+        men_means = female_values
+        women_means = male_values
+
+        x = np.arange(len(labels))  # the label locations
+        width = 0.35  # the width of the bars
+
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(x - width / 2, men_means, width, label='Women')
+        rects2 = ax.bar(x + width / 2, women_means, width, label='Men')
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        ax.set_ylabel('Amount of people')
+        ax.set_xlabel('Self evaluated score')
+        ax.set_title(f'Self evaluated {column_string}')
+        ax.set_xticks(x, labels)
+        ax.legend()
+
+        ax.bar_label(rects1, padding=3)
+        ax.bar_label(rects2, padding=3)
+
+        fig.tight_layout()
 
         plt.show()

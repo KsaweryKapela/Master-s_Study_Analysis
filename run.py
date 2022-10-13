@@ -8,8 +8,8 @@ def main():
     stat = StatisticalAnalysis(tested_people)
     vision = Visualizing_Results(tested_people)
 
-    # stat.mann_whitney('mother_relations')
-    vision.sex_double_graph_bar('reenacting_porn')
+    stat.shapiro_wilk('mother_relations')
+    # vision.sex_double_graph_bar('more_and_more_hardcore', 7)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
 import math
 
+import numpy as np
+from sklearn import preprocessing
 from scipy.stats import pearsonr, shapiro, mannwhitneyu
 
 
@@ -45,7 +47,6 @@ class StatisticalAnalysis:
         column = self.column(column_string)
 
         result = shapiro(column)
-        print(result)
         return result
 
     def is_normal(self, column_string, alpha_level=0.05):
@@ -54,7 +55,19 @@ class StatisticalAnalysis:
         else:
             return False
 
+    def normalize(self, column_string):
+        column_data = self.column(column_string)
+        column_data = np.array(column_data).reshape(-1, 1)
+        scaler = preprocessing.StandardScaler().fit(column_data)
+        column_data_scaled = scaler.transform(column_data)
+
+        normalized_column = []
+        for data in column_data_scaled:
+            normalized_column.append(*data)
+
+        return normalized_column
+
     def mann_whitney(self, column_string):
         male_data, female_data = self.split_column_into_sexes(column_string)
-        result = mannwhitneyu(male_data, female_data)
+        result = mannwhitneyu(male_data, female_data, alternative='less')
         print(result)

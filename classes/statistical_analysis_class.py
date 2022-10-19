@@ -1,8 +1,9 @@
 import math
 
 import numpy as np
+from matplotlib import pyplot as plt
 from sklearn import preprocessing
-from scipy.stats import pearsonr, shapiro, mannwhitneyu
+from scipy.stats import pearsonr, shapiro, mannwhitneyu, spearmanr
 
 
 class StatisticalAnalysis:
@@ -36,12 +37,16 @@ class StatisticalAnalysis:
     def r_pearson(self, column_string_1, column_string_2, alternative='two-sided'):
         column_1 = self.column(column_string_1)
         column_2 = self.column(column_string_2)
+
         result = pearsonr(column_1, column_2, alternative=alternative)
         print(result)
-        if result[1] < 0.05:
-            print('Data is statistically significant')
-        elif result[1] > 0.05:
-            print('Data is not statistically significant')
+
+    def spearman(self, column_string_1, column_string_2):
+        column_1 = self.column(column_string_1)
+        column_2 = self.column(column_string_2)
+
+        result = spearmanr(column_1, column_2)
+        print(result)
 
     def shapiro_wilk(self, column_string):
         column = self.column(column_string)

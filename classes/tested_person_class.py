@@ -9,13 +9,14 @@ class TestedPerson:
         self.extreme_score = round(data['Extreme score podzielony'], 2)
         self.PPCS_score = data['SUMA PPCS:']
 
-        self.well_beeing = data['Samopoczucie']
+        self.well_being = data['Samopoczucie']
         self.mother_relations = data['Relacja z matką']
         self.father_relations = data['Relacja z ojcem']
         self.friends_relations = data['Relacja z przyjaciółmi']
         self.romantic_life = data['Życie romantyczne']
         self.sexual_life = data['Życie seksualne']
 
+        self.releasing_tension = data[releasing_tension_string]
         self.more_and_more_hardcore = data[more_and_more_question_string]
         self.reenacting_porn = data['Odtwarzanie scen z porno']
         self.weekly_sessions = data['Tygodniowa częstotliwość']
@@ -51,10 +52,13 @@ class TestedPerson:
             return None
 
     def return_single(self):
-        if self.data['Status związku'] == 'Singiel/singielka':
+        if self.data['Status związku'] in ['Singiel/singielka', 'wdowa', 'Spotykam się z kimś, ale to jeszcze nie związek ',
+                                           'Rokujący na związek']:
             return True
-        else:
+        elif self.data['Status związku'] in ['Zaręczony/zaręczona', 'W związku małżeńskim', 'W związku', 'Kochanka']:
             return False
+        else:
+            raise Exception(f'{self.data["Status związku"]}| case not classified.')
 
     def return_NEET(self):
         if self.data['Zajęcie'] == 'Żadne z powyższych':
@@ -104,3 +108,4 @@ class TestedPerson:
 
 more_and_more_question_string = '7. Stopniowo oglądałem/am bardziej „ekstremalną” pornografię, ponieważ ta, ' \
                                 'którą oglądałem/am wcześniej, stawała się mniej satysfakcjonująca.'
+releasing_tension_string = '2. Uwalniałem/am się od napięcia za pomocą oglądania pornografii.'

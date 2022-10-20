@@ -27,3 +27,10 @@ def generate_index_dict(column):
             column_dict[item] = 1
 
     return column_dict
+
+
+def delete_edge_case(column, number):
+    for item in column[:]:
+        if item > number:
+            column.remove(item)
+    return column

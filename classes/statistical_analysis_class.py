@@ -15,12 +15,27 @@ class StatisticalAnalysis:
             subject.print_persons_data()
 
     def column(self, attribute_name):
-        atr_list = []
+        if type(attribute_name) == str:
+            atr_list = []
+            for row in self.subjects:
+                attribute = getattr(row, attribute_name)
+                if not math.isnan(attribute):
+                    atr_list.append(attribute)
+        else:
+            atr_list = attribute_name
+        return atr_list
+
+    def split_column_faith(self, attribute_name):
+        believers_data = []
+        atheist_data = []
         for row in self.subjects:
             attribute = getattr(row, attribute_name)
             if not math.isnan(attribute):
-                atr_list.append(attribute)
-        return atr_list
+                if row.believes_in_god:
+                    believers_data.append(attribute)
+                elif not row.believes_in_god:
+                    atheist_data.append(attribute)
+        return believers_data, atheist_data
 
     def split_column_into_sexes(self, attribute_name):
         male_data = []
@@ -34,6 +49,31 @@ class StatisticalAnalysis:
                     male_data.append(attribute)
         return male_data, female_data
 
+    def split_column_into_relationship_status(self, attribute_name):
+        single_data = []
+        in_relationship = []
+        for row in self.subjects:
+            attribute = getattr(row, attribute_name)
+            if not math.isnan(attribute):
+                if row.single:
+                    single_data.append(attribute)
+                elif not row.single:
+                    in_relationship.append(attribute)
+        return in_relationship, single_data
+
+    def split_column_into_well_being(self, attribute_name):
+        bad_well_being = []
+        good_well_being = []
+        for row in self.subjects:
+            attribute = getattr(row, attribute_name)
+            if not math.isnan(attribute):
+                if row.well_being <= 5:
+                    bad_well_being.append(attribute)
+                elif row.well_being > 5:
+                    good_well_being.append(attribute)
+
+        return bad_well_being, good_well_being
+
     def r_pearson(self, column_string_1, column_string_2, alternative='two-sided'):
         column_1 = self.column(column_string_1)
         column_2 = self.column(column_string_2)
@@ -42,10 +82,21 @@ class StatisticalAnalysis:
         print(result)
 
     def spearman(self, column_string_1, column_string_2):
-        column_1 = self.column(column_string_1)
-        column_2 = self.column(column_string_2)
+
+        if type(column_string_1) == str:
+            column_1 = self.column(column_string_1)
+
+        else:
+            column_1 = column_string_1
+        print(column_1)
+
+        if type(column_string_2) == str:
+            column_2 = self.column(column_string_2)
+        else:
+            column_2 = column_string_2
 
         result = spearmanr(column_1, column_2)
+        print(f'n={len(column_1)}')
         print(result)
 
     def shapiro_wilk(self, column_string):

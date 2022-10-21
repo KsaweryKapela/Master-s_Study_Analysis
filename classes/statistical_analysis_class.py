@@ -3,7 +3,7 @@ import math
 import numpy as np
 from matplotlib import pyplot as plt
 from sklearn import preprocessing
-from scipy.stats import pearsonr, shapiro, mannwhitneyu, spearmanr
+from scipy.stats import pearsonr, shapiro, mannwhitneyu, spearmanr, linregress
 
 
 class StatisticalAnalysis:
@@ -88,7 +88,6 @@ class StatisticalAnalysis:
 
         else:
             column_1 = column_string_1
-        print(column_1)
 
         if type(column_string_2) == str:
             column_2 = self.column(column_string_2)
@@ -126,4 +125,19 @@ class StatisticalAnalysis:
     def mann_whitney(self, column_string):
         male_data, female_data = self.split_column_into_sexes(column_string)
         result = mannwhitneyu(male_data, female_data, alternative='less')
+        print(result)
+
+    def linear_regression(self, column_string_1, column_string_2):
+        if type(column_string_1) == str:
+            column_1 = self.column(column_string_1)
+
+        else:
+            column_1 = column_string_1
+
+        if type(column_string_2) == str:
+            column_2 = self.column(column_string_2)
+        else:
+            column_2 = column_string_2
+
+        result = linregress(column_1, column_2)
         print(result)

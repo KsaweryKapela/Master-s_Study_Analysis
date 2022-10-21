@@ -156,6 +156,19 @@ class Visualizing_Results(StatisticalAnalysis):
 
         plt.show()
 
+    def scatter_plot(self, column_string_1, column_string_2):
+        y = self.column(column_string_1)
+        x = self.column(column_string_2)
+
+        plt.plot(x, y, 'o')
+
+        plt.ylabel(column_string_1)
+        plt.xlabel(column_string_2)
+        m, b = np.polyfit(x, y, 1)
+
+        plt.plot(x, m * np.array(x) + b)
+        plt.show()
+
 
 def split_into_groups(data_dict):
     sorted_dictionary = {'1-10': 0,

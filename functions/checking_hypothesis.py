@@ -13,6 +13,11 @@ def extreme_score_and_sexual_life(stat_class_instance, split_method):
     split_method(stat_class_instance, 'extreme_score', 'sexual_life', string)
 
 
+def extreme_score_and_PPCS_score(stat_class_instance, split_method):
+    string = 'Extreme pornography score/ PPCS scores'
+    split_method(stat_class_instance, 'extreme_score', 'PPCS_score', string)
+
+
 def more_and_more_hardcore_and_sexual_life(stat_class_instance, split_method):
     string = 'Extreme pornography score/ sexual life satisfaction correlation'
     split_method(stat_class_instance, 'more_and_more_hardcore', 'sexual_life', string)

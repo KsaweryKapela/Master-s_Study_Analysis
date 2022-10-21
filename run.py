@@ -1,3 +1,5 @@
+import numpy as np
+
 from classes.visualising_results import Visualizing_Results
 from functions.checking_hypothesis import *
 from functions.functions_ import subjects_into_instances, delete_edge_case
@@ -33,9 +35,10 @@ def run():
     tested_people = subjects_into_instances()
     stat = StatisticalAnalysis(tested_people)
     vision = Visualizing_Results(tested_people)
-
-    weekly_minutes = delete_edge_case(stat.column('weekly_minutes'), 300)
-    vision.scatter_plot('extreme_score', weekly_minutes)
+    extreme_score_and_PPCS_score(stat, split_into_sex_data)
+    extreme_score_and_PPCS_score(stat, split_into_faith_data)
+    extreme_score_and_PPCS_score(stat, split_into_relationship_data)
+    extreme_score_and_PPCS_score(stat, split_into_well_being_data)
 
 
 def run_without_edge_cases():
@@ -44,9 +47,22 @@ def run_without_edge_cases():
         if person.weekly_minutes > 300:
             tested_people.remove(person)
 
-    vision = Visualizing_Results(tested_people)
+    stat = StatisticalAnalysis(tested_people)
 
-    vision.scatter_plot('extreme_score', 'weekly_sessions')
+    vision = Visualizing_Results(tested_people)
+    extreme_raw = stat.column('extreme_score')
+    extreme_rounded = [(round(value * 2) / 2) for value in extreme_raw]
+
+    transform_extreme = np.log(extreme_rounded)
+    transform_extreme = (list(transform_extreme))
+
+    ppcs_score = stat.column('PPCS_score')
+    transform_ppcs = np.log(ppcs_score)
+    transform_ppcs = list(transform_ppcs)
+    # vision.bar_graph(ppcs_score)
+    vision.bar_graph(transform_extreme)
+    vision.scatter_plot(transform_ppcs, transform_extreme)
+    vision.scatter_plot('extreme_score', 'PPCS_score')
 
 
 if __name__ == "__main__":

@@ -11,18 +11,19 @@ class Visualizing_Results(StatisticalAnalysis):
         plt.scatter(self.column('extreme_score'), self.column('PPCS_score'))
         plt.show()
 
-    def bar_graph(self, column_string, data_not_a_string=False):
-        if data_not_a_string:
-            column = column_string
-        else:
+    def bar_graph(self, column_string):
+        if type(column_string) == str:
             column = self.column(column_string)
-        column_dict = generate_index_dict(column)
+        else:
+            column = column_string
 
+        column_dict = generate_index_dict(column)
+        print(column_dict)
         value = list(column_dict.keys())
         people = list(column_dict.values())
 
         plt.bar(value, people, color='maroon',
-                width=0.4)
+                width=0.2)
 
         plt.xlabel("Values")
         plt.ylabel("People")

@@ -1,2 +1,3 @@
-# Survey_Statistical_Analysis
-Statistical analysis of survey results, made for my masters degree.
+# Master's_Study_Statistics
+Complete statistical analysis of dataset gathered for my Master's Study.
+Correlations, regressions and descriptive.
